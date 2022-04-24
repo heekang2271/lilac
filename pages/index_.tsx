@@ -1,13 +1,10 @@
-import OurPurpose from '@components/home/OurPurpose';
-import Technology from '@components/home/Technology';
 import Seo from '@components/Seo';
 import { Style } from '@libs/const';
 import { Wrapper } from '@styles/common';
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { BsArrowRight } from 'react-icons/bs';
 
 const Container = styled.div`
   /* padding: 20px;
@@ -120,57 +117,23 @@ const Title = styled.h2`
   margin-bottom: 60px;
 `;
 
-const TechGoBtnBox = styled.div`
-  margin-top: 60px;
+const Intro = styled.div`
   display: flex;
-  justify-content: center;
-  a {
-    border-radius: 100px;
-    padding: 12px 40px;
-    background-color: ${(props) => props.theme.accent1Color};
-    color: #ffffff;
-    font-size: 24px;
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    align-items: center;
-
-    svg {
-      position: relative;
-      left: 10px;
-    }
-  }
-`;
-
-const ContactBox = styled.div`
-  color: #ffffff;
-  display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
+  gap: 50px;
 
-  & > div:first-child {
-    max-width: 700px;
-    span {
-      font-size: 40px;
-      font-weight: 600;
-    }
-    p {
-      margin-top: 20px;
-      font-size: 18px;
-    }
+  p {
+    text-align: center;
   }
 
-  & > a {
+  a {
     font-family: 'Poppins', sans-serif;
-    background-color: #404040;
-    font-size: 30px;
-    padding: 12px 60px;
-    border-radius: 100px;
-    display: flex;
-    align-items: center;
+    color: ${(props) => props.theme.accent1Color};
+    font-size: 18px;
 
-    svg {
-      position: relative;
-      left: 10px;
+    &:hover {
+      text-decoration: underline;
     }
   }
 `;
@@ -183,8 +146,6 @@ interface HomeProps {
       description: string;
     }[];
     intro: string;
-    purpose: any;
-    technology: any;
   };
 }
 
@@ -231,40 +192,18 @@ const Home: NextPage<HomeProps> = ({ data }) => {
         </VisualArea>
       ))}
       <Section bgColor="#ffffff">
-        <OurPurpose data={data.purpose} />
+        <Wrapper>
+          <Title>LiLac</Title>
+          <Intro>
+            <p>{data.intro}</p>
+            <Link href="/business/our-purpose">
+              <a>Read more +</a>
+            </Link>
+          </Intro>
+        </Wrapper>
       </Section>
       <Section bgColor="#f6f1f6">
         <Title>Technology</Title>
-        <Wrapper>
-          <Technology technology={data.technology} />
-          <TechGoBtnBox>
-            <Link href="/technology/platform-link">
-              <a>
-                <span>GO</span>
-                <BsArrowRight />
-              </a>
-            </Link>
-          </TechGoBtnBox>
-        </Wrapper>
-      </Section>
-      <Section bgColor="#BC9ABC">
-        <Wrapper>
-          <ContactBox>
-            <div>
-              <span>Contact us</span>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua
-              </p>
-            </div>
-            <Link href="/contact/location">
-              <a>
-                <span>GO</span>
-                <BsArrowRight />
-              </a>
-            </Link>
-          </ContactBox>
-        </Wrapper>
       </Section>
     </Container>
   );
@@ -296,67 +235,6 @@ export const getServerSideProps = async (ctx: any) => {
     ],
     intro:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit. Volutpat odio facilisis mauris sit amet massa. Commodo odio aenean sed adipiscing diam donec adipiscing tristique. Mi eget mauris pharetra et. Non tellus orci ac auctor augue. Elit at imperdiet dui accumsan sit. Ornare arcu dui vivamus arcu felis. Egestas integer eget aliquet nibh praesent. In hac habitasse platea dictumst quisque sagittis purus. Pulvinar elementum integer enim neque volutpat ac.',
-    purpose: {
-      philosophy:
-        '항상 새로운 방식으로 혁신하고,\n이해할 수 있는 방식으로 소통하며,\n소외되지 않도록 공유한다.',
-      vision: {
-        title: 'Vision',
-        contents: [
-          '인공지능 기반 제약 및 약료 혁신기술들을\n가장 쉬운 방식으로 제공하는 기업',
-        ],
-      },
-      mission: {
-        title: 'Mission',
-        contents: [
-          '누구보다\n빠른 신약',
-          '누구보다\n정확한 약물치료',
-          '누구나\n혜택 받을 수 있도록',
-        ],
-      },
-      strategy: {
-        title: 'Strategy',
-        contents: [
-          'AI를 활용한 신약개발, 부스팅 플랫폼 개발',
-          'AI를 활용한 정밀 환자 맞춤 약물치료 플랫폼 개발',
-          '사용자 친화 인터페이스 개발',
-        ],
-      },
-      goal: {
-        title: 'Goal',
-        contents: [
-          'LiLac-DSP\n인공지능 기반 정주기 신약 개발, 지원시스템 개발',
-          'LiLac-QSP\n인공지능 기반 약물 노출 및 반응 예측 플랫폼 개발',
-          'LiLac-DSP/QSP\n웹 클라우드 기반 플랫폼 인터페이스 개발',
-        ],
-      },
-      coreValue: {
-        title: 'Core Value',
-        contents: ['혁신을 위한 소통', '소통을 위한 공유', '공유를 위한 혁신'],
-      },
-    },
-    technology: [
-      {
-        image: null,
-        title: 'LiLac-ADMET',
-        subTitle: '화합물에 대한 이해',
-        description:
-          '화합물 구조정보 기반한 화합물의 흡수, 분포, 대사, 배설 및 독성 예측 모듈 화합물 구조정보 기반한 화합물의 흡수, 분포, 대사, 배설 및 독성 예측 모듈 화합물 구조정보 기반한 화합물의 흡수, 분포, 대사, 배설 및 독성 예측 모듈',
-      },
-      {
-        image: null,
-        title: 'LiLac-ADMET',
-        subTitle: '화합물에 대한 이해',
-        description:
-          '화합물 구조정보 기반한 화합물의 흡수, 분포, 대사, 배설 및 독성 예측 모듈',
-      },
-      {
-        image: null,
-        title: 'LiLac-ADMET',
-        subTitle: '화합물에 대한 이해',
-        description:
-          '화합물 구조정보 기반한 화합물의 흡수, 분포, 대사, 배설 및 독성 예측 모듈',
-      },
-    ],
   };
   return {
     props: {
