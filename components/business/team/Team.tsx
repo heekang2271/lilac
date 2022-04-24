@@ -401,7 +401,7 @@ export default function Team({ data: { detail, group } }: TeamProps) {
                   <>
                     <div>Github</div>
                     <div>
-                      <a href={detail.github} target="_blank">
+                      <a href={detail.github} target="_blank" rel="noreferrer">
                         {detail.github}
                       </a>
                     </div>
@@ -411,7 +411,7 @@ export default function Team({ data: { detail, group } }: TeamProps) {
                   <>
                     <div>Scholar</div>
                     <div>
-                      <a href={detail.scholar} target="_blank">
+                      <a href={detail.scholar} target="_blank" rel="noreferrer">
                         {detail.scholar}
                       </a>
                     </div>
@@ -421,7 +421,7 @@ export default function Team({ data: { detail, group } }: TeamProps) {
                   <>
                     <div>Linkdin</div>
                     <div>
-                      <a href={detail.scholar} target="_blank">
+                      <a href={detail.scholar} target="_blank" rel="noreferrer">
                         {detail.scholar}
                       </a>
                     </div>
