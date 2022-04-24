@@ -26,7 +26,6 @@ const VisualArea = styled.section<VisualAreaProps>`
   width: 100%;
   height: 100vh;
   min-height: 800px;
-
   background-image: ${(props) => `url(${props.image})`};
   background-repeat: no-repeat;
   background-size: cover;
@@ -276,19 +275,19 @@ export const getServerSideProps = async (ctx: any) => {
   const data = {
     visual: [
       {
-        image: '/img/Home1.jpg',
+        image: 'img/Home1.jpg',
         title: 'Lorem ipsum dolor sit amet, consectetur',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit',
       },
       {
-        image: '/img/Home2.jpg',
+        image: 'img/Home2.jpg',
         title: 'Lorem ipsum dolor sit amet, consectetur',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit',
       },
       {
-        image: '/img/Home3.jpg',
+        image: 'img/Home3.jpg',
         title: 'Lorem ipsum dolor sit amet, consectetur',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit',
