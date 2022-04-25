@@ -20,6 +20,9 @@ const nextConfig = {
       },
     ];
   },
+  images: {
+    domains: ['52.79.235.146'],
+  },
 };
 
 module.exports = nextConfig;

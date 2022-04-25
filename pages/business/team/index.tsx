@@ -13,7 +13,7 @@ export const getServerSideProps = async (ctx: any) => {
   const data = await fetchApi('POST', `${process.env.API_URL}/team/get_data`, {
     id: '0',
   });
-
+  console.log(data);
   return {
     props: {
       data,

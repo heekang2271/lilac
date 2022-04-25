@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi';
 import React, { useState } from 'react';
 import Seo from '@components/Seo';
+import Image from 'next/image';
 
 const Container = styled.div`
   display: flex;
@@ -31,17 +32,20 @@ const DetailBox = styled.div`
   }
 `;
 
-const Image = styled.div`
+const ImageBox = styled.div`
   width: 100%;
   height: 350px;
   display: flex;
   justify-content: center;
+`;
 
+const ImageHolder = styled.div`
+  position: relative;
+  border: 1px solid #d0d0d0;
+  max-width: 300px;
+  width: 100%;
+  height: 100%;
   img {
-    max-width: 300px;
-    border: 1px solid #d0d0d0;
-    width: 100%;
-    height: 100%;
     object-fit: cover;
     object-position: center;
   }
@@ -376,9 +380,14 @@ export default function Team({ data: { detail, group } }: TeamProps) {
             </SelectDetail>
           </MobileSelectBox>
           <DetailBox>
-            <Image>
-              <img src={detail.image ?? '/img/people_temp.png'} />
-            </Image>
+            <ImageBox>
+              <ImageHolder>
+                <Image
+                  src={detail.image ?? '/img/people_temp.png'}
+                  layout="fill"
+                />
+              </ImageHolder>
+            </ImageBox>
             <DetailInfoBox>
               <DetailName>
                 <h2>
