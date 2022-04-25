@@ -17,20 +17,19 @@ const Container = styled.div`
   } */
 `;
 
-const VisualArea = styled.section`
+interface VisualAreaProps {
+  image: string;
+}
+
+const VisualArea = styled.section<VisualAreaProps>`
   position: relative;
   width: 100%;
   height: 100vh;
   min-height: 800px;
-`;
-
-const VisualImage = styled.img`
-  position: absolute;
-  width: 100%;
-  height: 100vh;
-  min-height: 800px;
-  object-fit: cover;
-  object-position: center;
+  background-image: ${(props) => `url(${props.image})`};
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
 `;
 
 const ShadowMask = styled.div`
@@ -44,8 +43,6 @@ const ShadowMask = styled.div`
 `;
 
 const VisualTextBox = styled.div`
-  position: relative;
-  z-index: 100;
   width: 100%;
   height: 100%;
   background: linear-gradient(
@@ -218,8 +215,7 @@ const Home: NextPage<HomeProps> = ({ data }) => {
       <Seo title={''} />
       <ShadowMask></ShadowMask>
       {data.visual.map((visual, i) => (
-        <VisualArea key={`visual${i}`}>
-          <VisualImage src={visual.image} />
+        <VisualArea key={`visual${i}`} image={visual.image}>
           <VisualTextBox>
             <Wrapper>
               <VisualText
@@ -279,19 +275,19 @@ export const getServerSideProps = async (ctx: any) => {
   const data = {
     visual: [
       {
-        image: '/img/Home1.jpg',
+        image: '/img/home1.jpg',
         title: 'Lorem ipsum dolor sit amet, consectetur',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit',
       },
       {
-        image: '/img/Home2.jpg',
+        image: '/img/home2.jpg',
         title: 'Lorem ipsum dolor sit amet, consectetur',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit',
       },
       {
-        image: '/img/Home3.jpg',
+        image: '/img/home3.jpg',
         title: 'Lorem ipsum dolor sit amet, consectetur',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit',

@@ -96,7 +96,7 @@ export interface TeamProps {
     }[];
     detail: {
       id: string;
-      image?: string[];
+      image?: string;
       level: string;
       nameKr: string;
       nameEn: string;

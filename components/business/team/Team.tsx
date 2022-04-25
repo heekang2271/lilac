@@ -377,13 +377,7 @@ export default function Team({ data: { detail, group } }: TeamProps) {
           </MobileSelectBox>
           <DetailBox>
             <Image>
-              <img
-                src={
-                  detail.image && detail.image.length > 0
-                    ? detail.image[0]
-                    : '/img/people_temp.png'
-                }
-              />
+              <img src={detail.image ?? '/img/people_temp.png'} />
             </Image>
             <DetailInfoBox>
               <DetailName>
