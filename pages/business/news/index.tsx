@@ -41,6 +41,19 @@ const SearchBox = styled.form`
     background-color: #5e5e5e;
     color: #ffffff;
   }
+
+  @media only screen and (max-width: 680px) {
+    button {
+      min-width: 70px;
+      width: 70px;
+      font-size: 14px;
+    }
+
+    select {
+      width: 80px;
+      min-width: 80px;
+    }
+  }
 `;
 
 const Total = styled.div`

@@ -49,6 +49,19 @@ const ContentsBox = styled.div`
   p {
     font-size: 16px;
   }
+
+  @media only screen and (max-width: 680px) {
+    h2 {
+      font-size: 19px;
+    }
+    h4 {
+      font-size: 15px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
 `;
 
 interface CardProps {

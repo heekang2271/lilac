@@ -75,7 +75,8 @@ const IntroItem = styled.div<IntroItemProps>`
     & > div:first-child {
       width: 200px;
       min-width: 200px;
-      height: 100px;
+      height: 150px;
+      min-height: 150px;
       border-radius: 0;
     }
 

@@ -25,6 +25,10 @@ export const DocsTitle = styled.h1`
   font-size: 32px;
   font-weight: 600;
   margin-bottom: 40px;
+
+  @media only screen and (max-width: 680px) {
+    font-size: 24px;
+  }
 `;
 
 interface PurposeContentsProps {

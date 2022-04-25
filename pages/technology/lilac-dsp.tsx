@@ -71,10 +71,12 @@ const IntroItem = styled.div<IntroItemProps>`
     background-color: ${(props) => props.color};
     align-items: center;
     padding: 10px;
+
     & > div:first-child {
       width: 200px;
       min-width: 200px;
-      height: 100px;
+      height: 150px;
+      min-height: 150px;
       border-radius: 0;
     }
 

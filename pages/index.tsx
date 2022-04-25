@@ -213,7 +213,7 @@ const Home: NextPage<HomeProps> = ({ data }) => {
       <ShadowMask></ShadowMask>
       {data.visual.map((visual, i) => (
         <VisualArea key={`visual${i}`} image={visual.image}>
-          <Image src={visual.image} layout="fill" priority />
+          <Image src={visual.image} layout="fill" />
           <VisualTextBox>
             <Wrapper>
               <VisualText
