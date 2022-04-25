@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "npm run build && pm2 kill && pm2 start npm --name 'lilac' -- start"
   },
   "dependencies": {
     "@types/react-icons": "^3.0.0",

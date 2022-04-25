@@ -3,6 +3,7 @@ import { Style } from '@libs/const';
 import { fetchApi } from '@libs/utils';
 import { Docs, DocsTitle, Wrapper } from '@styles/common';
 import { NextPage } from 'next';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
@@ -111,8 +112,11 @@ interface FormData {
 }
 
 const BusinessContact: NextPage<BusinessContactProps> = ({ data, apiUrl }) => {
-  const { register, handleSubmit } = useForm<FormData>();
+  const { register, handleSubmit, reset } = useForm<FormData>();
+  const [loading, setLoading] = useState(false);
+
   const onValid = async (data: FormData) => {
+    setLoading(true);
     // 백으로 전송
     const result = await fetchApi(
       'POST',
@@ -125,7 +129,11 @@ const BusinessContact: NextPage<BusinessContactProps> = ({ data, apiUrl }) => {
       }
     );
 
-    console.log(result);
+    if (result) {
+      alert('문의가 접수되었습니다.');
+      reset();
+    }
+    setLoading(false);
   };
   return (
     <Docs>
@@ -168,7 +176,7 @@ const BusinessContact: NextPage<BusinessContactProps> = ({ data, apiUrl }) => {
               </InputBox>
             </Row>
           </div>
-          <SubmitBtn>제출</SubmitBtn>
+          <SubmitBtn disabled={loading}>제출</SubmitBtn>
         </Form>
       </Wrapper>
     </Docs>

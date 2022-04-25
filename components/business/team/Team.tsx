@@ -106,7 +106,7 @@ const History = styled.div`
   }
 
   & > div {
-    max-height: 200px;
+    /* max-height: 200px; */
     overflow-y: auto;
 
     &::-webkit-scrollbar {
@@ -147,7 +147,8 @@ const HistoryRow = styled.div`
 
 const CardBox = styled.div`
   overflow-y: auto;
-  max-height: 1100px;
+  /* max-height: 1100px; */
+  max-height: 100%;
   padding: 0 20px;
   width: 100%;
 
@@ -431,28 +432,32 @@ export default function Team({ data: { detail, group } }: TeamProps) {
                   </>
                 )}
               </LinkList>
-              <History>
-                <h4>Career</h4>
-                <div>
-                  {detail.career.map(({ date, detail }, i) => (
-                    <HistoryRow key={`detailCareer${i}`}>
-                      <span>{date}</span>
-                      <span>{detail}</span>
-                    </HistoryRow>
-                  ))}
-                </div>
-              </History>
-              <History>
-                <h4>Education</h4>
-                <div>
-                  {detail.education.map(({ date, detail }, i) => (
-                    <HistoryRow key={`detailEducation${i}`}>
-                      <span>{date}</span>
-                      <span>{detail}</span>
-                    </HistoryRow>
-                  ))}
-                </div>
-              </History>
+              {detail.career && detail.career.length > 0 && (
+                <History>
+                  <h4>Career</h4>
+                  <div>
+                    {detail.career.map(({ date, detail }, i) => (
+                      <HistoryRow key={`detailCareer${i}`}>
+                        <span>{date}</span>
+                        <span>{detail}</span>
+                      </HistoryRow>
+                    ))}
+                  </div>
+                </History>
+              )}
+              {detail.education && detail.education.length > 0 && (
+                <History>
+                  <h4>Education</h4>
+                  <div>
+                    {detail.education.map(({ date, detail }, i) => (
+                      <HistoryRow key={`detailEducation${i}`}>
+                        <span>{date}</span>
+                        <span>{detail}</span>
+                      </HistoryRow>
+                    ))}
+                  </div>
+                </History>
+              )}
             </DetailInfoBox>
           </DetailBox>
           <CardBox>
