@@ -1,4 +1,5 @@
 import Seo from '@components/Seo';
+import { fetchApi } from '@libs/utils';
 import { Docs, Wrapper } from '@styles/common';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -78,17 +79,18 @@ const NewsBoard: NextPage<NewsProps> = ({ data, existBack }) => {
 export default NewsBoard;
 
 export const getServerSideProps = async (ctx: any) => {
-  const id = Number(ctx.params.id);
-  const data = {
-    id,
-    title: `${id}번 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
-    contents:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit. Volutpat odio facilisis mauris sit amet massa. Commodo odio aenean sed adipiscing diam donec adipiscing tristique. Mi eget mauris pharetra et. Non tellus orci ac auctor augue. Elit at imperdiet dui accumsan sit. Ornare arcu dui vivamus arcu felis. Egestas integer eget aliquet nibh praesent. In hac habitasse platea dictumst quisque sagittis purus. Pulvinar elementum integer enim neque volutpat ac.',
-    date: '2022.04.01',
-  };
+  const id = ctx.params.id;
+  const res = await fetchApi(
+    'POST',
+    `${process.env.API_URL}/news/get_innercontent`,
+    {
+      id,
+    }
+  );
+
   return {
     props: {
-      data,
+      data: res,
       existBack: ctx.query.existBack ? JSON.parse(ctx.query.existBack) : false,
     },
   };

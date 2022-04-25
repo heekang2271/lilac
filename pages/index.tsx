@@ -8,14 +8,9 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { BsArrowRight } from 'react-icons/bs';
+import Image from 'next/image';
 
-const Container = styled.div`
-  /* padding: 20px;
-  img {
-    width: 200px;
-    filter: grayscale(100%) contrast(500%);
-  } */
-`;
+const Container = styled.div``;
 
 interface VisualAreaProps {
   image: string;
@@ -26,10 +21,9 @@ const VisualArea = styled.section<VisualAreaProps>`
   width: 100%;
   height: 100vh;
   min-height: 800px;
-  background-image: ${(props) => `url(${props.image})`};
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
+  img {
+    z-index: -10;
+  }
 `;
 
 const ShadowMask = styled.div`
@@ -66,6 +60,7 @@ const VisualText = styled.div<VisualTextProps>`
   max-width: 900px;
   float: ${(props) => props.align};
   position: relative;
+  z-index: 10;
   opacity: 0;
   top: 50px;
 
@@ -216,6 +211,7 @@ const Home: NextPage<HomeProps> = ({ data }) => {
       <ShadowMask></ShadowMask>
       {data.visual.map((visual, i) => (
         <VisualArea key={`visual${i}`} image={visual.image}>
+          <Image src={visual.image} layout="fill" />
           <VisualTextBox>
             <Wrapper>
               <VisualText

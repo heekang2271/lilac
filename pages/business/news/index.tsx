@@ -336,8 +336,6 @@ export const getServerSideProps = async (ctx: any) => {
     count: itemCount,
   });
 
-  console.log(res);
-
   const start = Math.floor((page - 1) / pageCount) * pageCount + 1;
   const end =
     start + pageCount > res.totalPage ? res.totalPage : start + pageCount - 1;
@@ -362,72 +360,3 @@ export const getServerSideProps = async (ctx: any) => {
     },
   };
 };
-
-// export const getServerSideProps = async (ctx: any) => {
-//   const { query } = ctx;
-//   const page = query.page ?? 1;
-//   const key = query.key ?? '';
-//   const value = query.value ?? '';
-//   const itemCount = 5;
-//   const pageCount = 5;
-
-//   const body = {
-//     key: key,
-//     value: value,
-//     page: Number(page),
-//     count: itemCount,
-//   };
-
-//   const newsData = [];
-//   const fixedData = [
-//     {
-//       id: 0,
-//       title: `고정 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
-//       contents:
-//         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit. Volutpat odio facilisis mauris sit amet massa. Commodo odio aenean sed adipiscing diam donec adipiscing tristique. Mi eget mauris pharetra et. Non tellus orci ac auctor augue. Elit at imperdiet dui accumsan sit. Ornare arcu dui vivamus arcu felis. Egestas integer eget aliquet nibh praesent. In hac habitasse platea dictumst quisque sagittis purus. Pulvinar elementum integer enim neque volutpat ac.',
-//       date: '2022.04.01',
-//     },
-//   ];
-//   for (
-//     let i = (page - 1) * itemCount;
-//     i < (page - 1) * itemCount + itemCount;
-//     i++
-//   ) {
-//     newsData.push({
-//       id: i + 1,
-//       title: `${
-//         i + 1
-//       }번 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
-//       contents:
-//         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit. Volutpat odio facilisis mauris sit amet massa. Commodo odio aenean sed adipiscing diam donec adipiscing tristique. Mi eget mauris pharetra et. Non tellus orci ac auctor augue. Elit at imperdiet dui accumsan sit. Ornare arcu dui vivamus arcu felis. Egestas integer eget aliquet nibh praesent. In hac habitasse platea dictumst quisque sagittis purus. Pulvinar elementum integer enim neque volutpat ac.',
-//       date: '2022.04.01',
-//     });
-//   }
-
-//   const data = {
-//     total: 126,
-//     fixed: fixedData,
-//     unfixed: newsData,
-//   };
-
-//   const totalPage = Math.ceil(data.total / itemCount);
-//   const start = Math.floor((page - 1) / pageCount) * pageCount + 1;
-//   const end = start + pageCount > totalPage ? totalPage : start + pageCount - 1;
-//   const prev = start === 1 ? 1 : start - 1;
-//   const next = end === totalPage ? end : end + 1;
-
-//   return {
-//     props: {
-//       data,
-//       pagination: {
-//         start,
-//         current: page,
-//         end,
-//         prev,
-//         next,
-//         total: totalPage,
-//       },
-//       query,
-//     },
-//   };
-// };
