@@ -6,7 +6,7 @@ const Container = styled(PurposeContents)`
   height: ${(props) => (props.notAction ? '350px' : '100%')};
 
   & > div {
-    background-color: ${(props) => props.theme.accent1Color};
+    background-color: #cf86c7;
     box-shadow: 0 0 12px -3px #bb9bbb;
     color: #ffffff;
     border: 1px solid #bb9bbb;
