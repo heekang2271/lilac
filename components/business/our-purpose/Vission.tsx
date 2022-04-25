@@ -14,6 +14,7 @@ const Container = styled(PurposeContents)`
 
 const IconBox = styled.div`
   font-size: 150px;
+  color: #606060;
 `;
 
 export default function Vission({

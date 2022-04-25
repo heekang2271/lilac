@@ -17,7 +17,7 @@ const Intro = styled.div`
   align-items: center;
   margin-top: 60px;
   h2 {
-    font-size: 36px;
+    font-size: 30px;
   }
 `;
 

@@ -11,7 +11,7 @@ import styled from 'styled-components';
 const Intro = styled.div`
   margin-top: 40px;
   h2 {
-    font-size: 36px;
+    font-size: 32px;
   }
 `;
 
