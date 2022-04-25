@@ -23,6 +23,8 @@ const VisualArea = styled.section<VisualAreaProps>`
   min-height: 800px;
   img {
     z-index: -10;
+    object-fit: cover;
+    object-position: center;
   }
 `;
 
@@ -211,7 +213,7 @@ const Home: NextPage<HomeProps> = ({ data }) => {
       <ShadowMask></ShadowMask>
       {data.visual.map((visual, i) => (
         <VisualArea key={`visual${i}`} image={visual.image}>
-          <Image src={visual.image} layout="fill" />
+          <Image src={visual.image} layout="fill" priority />
           <VisualTextBox>
             <Wrapper>
               <VisualText
