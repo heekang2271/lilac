@@ -6,14 +6,19 @@ import { AiFillCar, AiOutlineMail } from 'react-icons/ai';
 import { IoMdCall } from 'react-icons/io';
 import Seo from '@components/Seo';
 import { fetchApi } from '@libs/utils';
+import Layout from '@components/Layout';
 
 const Iframe = styled.iframe`
   height: 450px;
   width: 100%;
   border: 1px solid #c0c0c0;
+
+  @media only screen and (max-width: 850px) {
+    height: 350px;
+  }
 `;
 
-const Layout = styled.div`
+const LocLayout = styled.div`
   display: flex;
   margin-top: 60px;
   & > div {
@@ -53,6 +58,15 @@ const InfoIcon = styled.div`
   justify-content: center;
   position: relative;
   top: -7px;
+
+  @media only screen and (max-width: 850px) {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    font-size: 28px;
+    top: 0px;
+  }
 `;
 
 const Info = styled.div`
@@ -60,6 +74,15 @@ const Info = styled.div`
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 5px;
+  }
+
+  @media only screen and (max-width: 850px) {
+    h4 {
+      font-size: 15px;
+    }
+    span {
+      font-size: 15px;
+    }
   }
 `;
 
@@ -75,54 +98,56 @@ interface LocationProps {
 
 const Location: NextPage<LocationProps> = ({ data }) => {
   return (
-    <Docs>
-      <Wrapper short={true}>
-        <Seo title="Location" />
-        <Iframe src={data.iframeLink} loading="lazy"></Iframe>
-        <Layout>
-          <div>
-            <InfoBox>
-              <InfoIcon>
-                <BsBuilding />
-              </InfoIcon>
-              <Info>
-                <h4>주소</h4>
-                <span>{data.address}</span>
-              </Info>
-            </InfoBox>
-            <InfoBox>
-              <InfoIcon>
-                <AiOutlineMail />
-              </InfoIcon>
-              <Info>
-                <h4>이메일</h4>
-                <span>{data.email}</span>
-              </Info>
-            </InfoBox>
-            <InfoBox>
-              <InfoIcon>
-                <IoMdCall />
-              </InfoIcon>
-              <Info>
-                <h4>대표전화</h4>
-                <span>{data.call}</span>
-              </Info>
-            </InfoBox>
-          </div>
-          <div>
-            <InfoBox>
-              <InfoIcon>
-                <AiFillCar />
-              </InfoIcon>
-              <Info>
-                <h4>찾아오시는 길</h4>
-                <span>{data.road}</span>
-              </Info>
-            </InfoBox>
-          </div>
-        </Layout>
-      </Wrapper>
-    </Docs>
+    <Layout>
+      <Docs>
+        <Wrapper short={true}>
+          <Seo title="Location" />
+          <Iframe src={data.iframeLink} loading="lazy"></Iframe>
+          <LocLayout>
+            <div>
+              <InfoBox>
+                <InfoIcon>
+                  <BsBuilding />
+                </InfoIcon>
+                <Info>
+                  <h4>주소</h4>
+                  <span>{data.address}</span>
+                </Info>
+              </InfoBox>
+              <InfoBox>
+                <InfoIcon>
+                  <AiOutlineMail />
+                </InfoIcon>
+                <Info>
+                  <h4>이메일</h4>
+                  <span>{data.email}</span>
+                </Info>
+              </InfoBox>
+              <InfoBox>
+                <InfoIcon>
+                  <IoMdCall />
+                </InfoIcon>
+                <Info>
+                  <h4>대표전화</h4>
+                  <span>{data.call}</span>
+                </Info>
+              </InfoBox>
+            </div>
+            <div>
+              <InfoBox>
+                <InfoIcon>
+                  <AiFillCar />
+                </InfoIcon>
+                <Info>
+                  <h4>찾아오시는 길</h4>
+                  <span>{data.road}</span>
+                </Info>
+              </InfoBox>
+            </div>
+          </LocLayout>
+        </Wrapper>
+      </Docs>
+    </Layout>
   );
 };
 
@@ -134,6 +159,14 @@ export const getServerSideProps = async (ctx: any) => {
     `${process.env.API_URL}/location/get_data`,
     {}
   );
+  if (data?.error === 500) {
+    return {
+      redirect: {
+        destination: '/error',
+      },
+    };
+  }
+
   return {
     props: {
       data,

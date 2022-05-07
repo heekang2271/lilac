@@ -118,6 +118,7 @@ export interface TeamProps {
 }
 
 export interface PurposeProps {
+  images?: string[];
   contents: string[];
   active?: boolean;
   notAction?: boolean;

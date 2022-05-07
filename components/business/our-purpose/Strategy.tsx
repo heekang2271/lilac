@@ -5,10 +5,9 @@ import { MdOutlineSettings } from 'react-icons/md';
 import { RiPsychotherapyLine } from 'react-icons/ri';
 
 const Container = styled(PurposeContents)`
-  height: ${(props) => (props.notAction ? '400px' : '100%')};
+  height: ${(props) => (props.notAction ? '300px' : '100%')};
 
   div {
-    background-color: #357dbd;
     color: #ffffff;
     font-size: 17px;
     border-radius: 12px;
@@ -16,31 +15,61 @@ const Container = styled(PurposeContents)`
     justify-content: center;
     align-items: center;
     width: 450px;
-    height: 50px;
-    position: absolute;
-    transition: ${(props) =>
-      props.notAction ? 'none' : 'transform 0.5s ease-in-out'};
+    padding: 13px;
   }
 
   div:nth-child(1) {
     background-color: #44c4dd;
-    transform: ${(props) =>
-      props.active || props.notAction
-        ? 'translateY(-90px) translateX(-20%)'
-        : 'none'};
   }
   div:nth-child(2) {
     background-color: #f17180;
-    transform: ${(props) =>
-      props.active || props.notAction ? 'translateX(20%)' : 'none'};
   }
   div:nth-child(3) {
     background-color: #f3ab24;
-    transform: translateY(100px);
-    transform: ${(props) =>
-      props.active || props.notAction
-        ? 'translateY(90px) translateX(-20%)'
-        : 'none'};
+  }
+
+  @media only screen and (max-width: 850px) {
+    flex-direction: column;
+    gap: 20px;
+    div {
+      font-size: 15px;
+      width: 100%;
+      max-width: 450px;
+    }
+  }
+
+  @media only screen and (min-width: 850px) {
+    height: ${(props) => (props.notAction ? '400px' : '100%')};
+    div {
+      color: #ffffff;
+      font-size: 17px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 450px;
+      position: absolute;
+      transition: ${(props) =>
+        props.notAction ? 'none' : 'transform 0.5s ease-in-out'};
+    }
+
+    div:nth-child(1) {
+      transform: ${(props) =>
+        props.active || props.notAction
+          ? 'translateY(-90px) translateX(-20%)'
+          : 'none'};
+    }
+    div:nth-child(2) {
+      transform: ${(props) =>
+        props.active || props.notAction ? 'translateX(20%)' : 'none'};
+    }
+    div:nth-child(3) {
+      transform: translateY(100px);
+      transform: ${(props) =>
+        props.active || props.notAction
+          ? 'translateY(90px) translateX(-20%)'
+          : 'none'};
+    }
   }
 `;
 
@@ -64,6 +93,20 @@ const Icons = styled.span`
   &:nth-child(5) {
     top: 0px;
     right: 50px;
+  }
+
+  @media only screen and (max-width: 850px) {
+    font-size: 150px;
+    &:nth-child(4) {
+      font-size: 200px;
+      bottom: 0;
+      left: 0;
+    }
+
+    &:nth-child(5) {
+      top: 0px;
+      right: 0px;
+    }
   }
 `;
 

@@ -9,6 +9,7 @@ import { IoMdSkipForward, IoMdSkipBackward } from 'react-icons/io';
 import { IoCaretForward, IoCaretBack } from 'react-icons/io5';
 import Link from 'next/link';
 import { fetchApi, getPageNumber } from '@libs/utils';
+import Layout from '@components/Layout';
 
 const SearchBox = styled.form`
   height: 50px;
@@ -42,7 +43,7 @@ const SearchBox = styled.form`
     color: #ffffff;
   }
 
-  @media only screen and (max-width: 680px) {
+  @media only screen and (max-width: 850px) {
     button {
       min-width: 70px;
       width: 70px;
@@ -52,6 +53,20 @@ const SearchBox = styled.form`
     select {
       width: 80px;
       min-width: 80px;
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    height: 45px;
+    button {
+      min-width: 55px;
+      width: 55px;
+      font-size: 14px;
+    }
+
+    select {
+      width: 75px;
+      min-width: 75px;
     }
   }
 `;
@@ -238,97 +253,102 @@ const News: NextPage<NewsProps> = ({ data, pagination, query }) => {
   };
 
   return (
-    <Docs>
-      <Seo title="News" />
-      <Wrapper short={true}>
-        <SearchBox onSubmit={handleSubmit(onValid)}>
-          <select {...register('key')} defaultValue={query.key ?? ''}>
-            <option value="">전체</option>
-            <option value="title">제목</option>
-            <option value="contents">내용</option>
-          </select>
-          <input
-            {...register('value')}
-            type="text"
-            defaultValue={query.value}
-            placeholder="검색어를 입력하세요."
-          />
-          <button type="submit">검색</button>
-        </SearchBox>
-        <Total>
-          총: <span>{data.total}</span> 건
-        </Total>
-        <NewsBox>
-          {data.fixed.map((news) => (
-            <Link href={`/business/news/${news.id}`} key={`news${news.id}`}>
+    <Layout>
+      <Docs>
+        <Seo title="News" />
+        <Wrapper short={true}>
+          <SearchBox onSubmit={handleSubmit(onValid)}>
+            <select {...register('key')} defaultValue={query.key ?? ''}>
+              <option value="">전체</option>
+              <option value="title">제목</option>
+              <option value="contents">내용</option>
+            </select>
+            <input
+              {...register('value')}
+              type="text"
+              defaultValue={query.value}
+              placeholder="검색어를 입력하세요."
+            />
+            <button type="submit">검색</button>
+          </SearchBox>
+          <Total>
+            총: <span>{data.total}</span> 건
+          </Total>
+          <NewsBox>
+            {data.fixed.map((news) => (
+              <Link href={`/business/news/${news.id}`} key={`news${news.id}`}>
+                <Card
+                  key={`news${news.id}`}
+                  onClick={() => onCardClick(news.id)}
+                >
+                  <CardTitle>
+                    <BsPinFill />
+                    <h4>{news.title}</h4>
+                  </CardTitle>
+                  <CardContents>{news.contents}</CardContents>
+                  <CardDate>{news.date}</CardDate>
+                </Card>
+              </Link>
+            ))}
+            {data.unfixed.map((news) => (
               <Card key={`news${news.id}`} onClick={() => onCardClick(news.id)}>
                 <CardTitle>
-                  <BsPinFill />
                   <h4>{news.title}</h4>
                 </CardTitle>
                 <CardContents>{news.contents}</CardContents>
                 <CardDate>{news.date}</CardDate>
               </Card>
-            </Link>
-          ))}
-          {data.unfixed.map((news) => (
-            <Card key={`news${news.id}`} onClick={() => onCardClick(news.id)}>
-              <CardTitle>
-                <h4>{news.title}</h4>
-              </CardTitle>
-              <CardContents>{news.contents}</CardContents>
-              <CardDate>{news.date}</CardDate>
-            </Card>
-          ))}
-        </NewsBox>
-        <PaginationBox>
-          <Pagination>
-            <PageBtn
-              arrow={true}
-              size="20px"
-              onClick={() => onPageBtnClick(1)}
-              cnt={false}
-            >
-              <IoMdSkipBackward />
-            </PageBtn>
-            <PageBtn
-              arrow={true}
-              size="22px"
-              onClick={() => onPageBtnClick(pagination.prev)}
-              cnt={false}
-            >
-              <IoCaretBack />
-            </PageBtn>
-            {getPageNumber(pagination.start, pagination.end).map((num) => (
-              <PageBtn
-                key={`pageNum${num}`}
-                arrow={false}
-                onClick={() => onPageBtnClick(num)}
-                cnt={pagination.current == num}
-              >
-                {num}
-              </PageBtn>
             ))}
-            <PageBtn
-              arrow={true}
-              size="22px"
-              onClick={() => onPageBtnClick(pagination.next)}
-              cnt={false}
-            >
-              <IoCaretForward />
-            </PageBtn>
-            <PageBtn
-              arrow={true}
-              size="20px"
-              onClick={() => onPageBtnClick(pagination.total)}
-              cnt={false}
-            >
-              <IoMdSkipForward />
-            </PageBtn>
-          </Pagination>
-        </PaginationBox>
-      </Wrapper>
-    </Docs>
+          </NewsBox>
+          <PaginationBox>
+            <Pagination>
+              <PageBtn
+                arrow={true}
+                size="20px"
+                onClick={() => onPageBtnClick(1)}
+                cnt={false}
+              >
+                <IoMdSkipBackward />
+              </PageBtn>
+              <PageBtn
+                arrow={true}
+                size="22px"
+                onClick={() => onPageBtnClick(pagination.prev)}
+                cnt={false}
+              >
+                <IoCaretBack />
+              </PageBtn>
+              {getPageNumber(pagination.start, pagination.end).map((num) => (
+                <PageBtn
+                  key={`pageNum${num}`}
+                  arrow={false}
+                  onClick={() => onPageBtnClick(num)}
+                  cnt={pagination.current == num}
+                >
+                  {num}
+                </PageBtn>
+              ))}
+              <PageBtn
+                arrow={true}
+                size="22px"
+                onClick={() => onPageBtnClick(pagination.next)}
+                cnt={false}
+              >
+                <IoCaretForward />
+              </PageBtn>
+              <PageBtn
+                arrow={true}
+                size="20px"
+                onClick={() => onPageBtnClick(pagination.total)}
+                cnt={false}
+              >
+                <IoMdSkipForward />
+              </PageBtn>
+            </Pagination>
+          </PaginationBox>
+        </Wrapper>
+      </Docs>
+    </Layout>
   );
 };
 
@@ -348,6 +368,14 @@ export const getServerSideProps = async (ctx: any) => {
     page: Number(page),
     count: itemCount,
   });
+
+  if (res?.error === 500) {
+    return {
+      redirect: {
+        destination: '/error',
+      },
+    };
+  }
 
   const start = Math.floor((page - 1) / pageCount) * pageCount + 1;
   const end =

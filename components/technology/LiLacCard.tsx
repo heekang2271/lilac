@@ -1,7 +1,9 @@
+import Image from 'next/image';
 import styled from 'styled-components';
 
 interface SCardProps {
   reverse: boolean;
+  active: boolean;
 }
 
 const SCard = styled.div<SCardProps>`
@@ -12,13 +14,27 @@ const SCard = styled.div<SCardProps>`
   gap: 40px;
   flex-direction: ${(props) => (props.reverse ? 'row-reverse' : 'row')};
   box-shadow: 0 0 10px -3px #bb9bbb;
+
+  &:hover {
+    border: ${(props) =>
+      `1px solid ${props.active ? props.theme.accent1Color : '#bebebe'}`};
+    box-shadow: ${(props) =>
+      props.active ? '0 0 10px 0px #bb9bbb' : '0 0 10px -3px #bb9bbb'};
+  }
 `;
 
 const ImageBox = styled.div`
+  position: relative;
   width: 300px;
   height: 200px;
   background-color: #808080;
   min-width: 300px;
+  border: 1px solid #c0c0c0;
+
+  img {
+    object-fit: cover;
+    object-position: center;
+  }
 
   @media only screen and (max-width: 980px) {
     width: 230px;
@@ -70,6 +86,7 @@ interface CardProps {
   content: string;
   subtitle: string;
   reverse: boolean;
+  active?: boolean;
 }
 
 export default function LiLacCard({
@@ -78,10 +95,11 @@ export default function LiLacCard({
   subtitle,
   content,
   reverse,
+  active,
 }: CardProps) {
   return (
-    <SCard reverse={reverse}>
-      <ImageBox>{image && <img src={image} />}</ImageBox>
+    <SCard reverse={reverse} active={active ?? false}>
+      <ImageBox>{image && <Image src={image} layout="fill" />}</ImageBox>
       <ContentsBox>
         <h2>{title}</h2>
         <h4>{subtitle}</h4>

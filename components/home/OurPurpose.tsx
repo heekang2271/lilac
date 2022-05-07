@@ -5,18 +5,33 @@ import Strategy from '@components/business/our-purpose/Strategy';
 import Vission from '@components/business/our-purpose/Vission';
 import { Style } from '@libs/const';
 import { Wrapper } from '@styles/common';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { BsArrowRight } from 'react-icons/bs';
 import styled from 'styled-components';
 
-const Intro = styled.div`
+const Intro = styled.h2`
   margin-top: 40px;
-  h2 {
+  font-size: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media only screen and (max-width: 1100px) {
     font-size: 32px;
+  }
+
+  @media only screen and (max-width: ${Style.mobileWidth}) {
+    font-size: 22px;
   }
 `;
 
 const ScrollBox = styled.div`
   display: flex;
+
+  @media only screen and (max-width: 1100px) {
+    display: none;
+  }
 `;
 
 const TitleBox = styled.div`
@@ -46,12 +61,13 @@ const StickyBox = styled.div`
 
 type PurposeType = {
   title: string;
+  images?: string[];
   contents: string[];
 };
 
 interface OurPurposeProps {
   data: {
-    philosophy: string;
+    pilosophy: string;
     vision: PurposeType;
     mission: PurposeType;
     strategy: PurposeType;
@@ -59,6 +75,54 @@ interface OurPurposeProps {
     coreValue: PurposeType;
   };
 }
+
+const Title = styled.h2`
+  font-size: 38px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 60px;
+  display: none;
+
+  @media only screen and (max-width: 1100px) {
+    display: block;
+  }
+
+  @media only screen and (max-width: ${Style.mobileWidth}) {
+    font-size: 28px;
+  }
+`;
+
+const MoreBtnBox = styled.div`
+  margin-top: 80px;
+  display: flex;
+  justify-content: center;
+  display: none;
+  a {
+    border-radius: 100px;
+    padding: 12px 40px;
+    background-color: ${(props) => props.theme.accent1Color};
+    color: #ffffff;
+    font-size: 23px;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+
+    svg {
+      position: relative;
+      left: 10px;
+    }
+  }
+
+  @media only screen and (max-width: 1100px) {
+    display: flex;
+  }
+
+  @media only screen and (max-width: ${Style.mobileWidth}) {
+    a {
+      font-size: 18px;
+    }
+  }
+`;
 
 const OurPurpose = ({ data }: OurPurposeProps) => {
   const $titles = useRef<HTMLDivElement[]>([]);
@@ -72,28 +136,34 @@ const OurPurpose = ({ data }: OurPurposeProps) => {
       if ($titles.current && $contents.current) {
         for (let i = $titles.current.length - 1; i >= 0; i--) {
           const $title = $titles.current[i];
-          const top = $title.getBoundingClientRect().top;
 
-          if (top + $title.clientHeight / 4 <= windowCenter) {
-            setCntPurpose(i);
-            break;
+          if ($title) {
+            const top = $title.getBoundingClientRect().top;
+
+            if (top + $title.clientHeight / 4 <= windowCenter) {
+              setCntPurpose(i);
+              break;
+            }
           }
         }
       }
     };
 
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
     };
   }, []);
 
   return (
     <Wrapper>
+      <Title>Our purpose</Title>
       <Intro>
-        {data.philosophy.split('\n').map((text, i) => (
-          <h2 key={`intro${i}`}>{text}</h2>
+        {data.pilosophy.split('\n').map((text, i) => (
+          <span key={`intro${i}`}>{text}</span>
         ))}
       </Intro>
       <ScrollBox>
@@ -130,6 +200,7 @@ const OurPurpose = ({ data }: OurPurposeProps) => {
               active={cntPurpose === 2}
             />
             <Goal
+              images={data.goal.images}
               contents={data.goal.contents}
               ref={$contents.current[3]}
               active={cntPurpose === 3}
@@ -142,6 +213,14 @@ const OurPurpose = ({ data }: OurPurposeProps) => {
           </StickyBox>
         </StickyContainer>
       </ScrollBox>
+      <MoreBtnBox>
+        <Link href="/business/our-purpose">
+          <a>
+            <span>See more</span>
+            <BsArrowRight />
+          </a>
+        </Link>
+      </MoreBtnBox>
     </Wrapper>
   );
 };

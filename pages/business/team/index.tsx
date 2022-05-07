@@ -13,7 +13,13 @@ export const getServerSideProps = async (ctx: any) => {
   const data = await fetchApi('POST', `${process.env.API_URL}/team/get_data`, {
     id: '0',
   });
-  console.log(data);
+  if (data?.error === 500) {
+    return {
+      redirect: {
+        destination: '/error',
+      },
+    };
+  }
   return {
     props: {
       data,

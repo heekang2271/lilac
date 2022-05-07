@@ -7,6 +7,10 @@ import { MdPeopleOutline } from 'react-icons/md';
 
 const Container = styled(PurposeContents)`
   height: ${(props) => (props.notAction ? '500px' : 'initial')};
+
+  @media only screen and (max-width: 850px) {
+    height: ${(props) => (props.notAction ? '320px' : 'initial')};
+  }
 `;
 
 interface ItemBoxProps {
@@ -69,6 +73,28 @@ const ItemBox = styled.div<ItemBoxProps>`
     border-right: 110px solid transparent;
     border-top: 60px solid ${(props) => props.bgColor};
   }
+
+  @media only screen and (max-width: 850px) {
+    &:nth-child(1) {
+      transform: ${(props) =>
+        props.active || props.notAction ? 'translateY(-70px)' : 'none'};
+    }
+    &:nth-child(2) {
+      transform: ${(props) =>
+        props.active || props.notAction
+          ? 'translateY(70px) translateX(-85px)'
+          : 'none'};
+    }
+    &:nth-child(3) {
+      transform: ${(props) =>
+        props.active || props.notAction
+          ? 'translateY(70px) translateX(85px)'
+          : 'none'};
+    }
+    & > div {
+      transform: scale(0.7);
+    }
+  }
 `;
 
 const IconBox = styled.div`
@@ -89,6 +115,15 @@ const TextBox = styled.div`
   span:last-child {
     font-size: 16px;
   }
+
+  @media only screen and (max-width: 850px) {
+    span:first-child {
+      font-size: 26px;
+    }
+    span:last-child {
+      font-size: 19px;
+    }
+  }
 `;
 
 const Circle = styled.div`
@@ -96,6 +131,10 @@ const Circle = styled.div`
   height: 300px;
   border-radius: 100%;
   border: 5px solid #d0d0d0;
+  display: none;
+  @media only screen and (min-width: 850px) {
+    display: block;
+  }
 `;
 
 export default function Mission({

@@ -1,3 +1,4 @@
+import Layout from '@components/Layout';
 import Seo from '@components/Seo';
 import { Style } from '@libs/const';
 import { fetchApi } from '@libs/utils';
@@ -136,50 +137,52 @@ const BusinessContact: NextPage<BusinessContactProps> = ({ data, apiUrl }) => {
     setLoading(false);
   };
   return (
-    <Docs>
-      <Seo title="Business contact" />
-      <Wrapper short={true}>
-        <DocsTitle>메일 문의</DocsTitle>
-        <Caution>
-          {data.map(({ caution }, i) => (
-            <li key={`caution${i}`}>{caution}</li>
-          ))}
-        </Caution>
-        <Form onSubmit={handleSubmit(onValid)}>
-          <div>
-            <Row>
-              <Label>문의 구분</Label>
-              <InputBox>
-                <select {...register('category')} required>
-                  <option>옵션1</option>
-                  <option>옵션2</option>
-                  <option>옵션3</option>
-                </select>
-              </InputBox>
-            </Row>
-            <Row>
-              <Label>이름</Label>
-              <InputBox>
-                <input type="text" {...register('name')} required />
-              </InputBox>
-            </Row>
-            <Row>
-              <Label>이메일</Label>
-              <InputBox>
-                <input type="email" {...register('email')} required />
-              </InputBox>
-            </Row>
-            <Row>
-              <Label>내용</Label>
-              <InputBox>
-                <textarea {...register('contents')}></textarea>
-              </InputBox>
-            </Row>
-          </div>
-          <SubmitBtn disabled={loading}>제출</SubmitBtn>
-        </Form>
-      </Wrapper>
-    </Docs>
+    <Layout>
+      <Docs>
+        <Seo title="Business contact" />
+        <Wrapper short={true}>
+          <DocsTitle>메일 문의</DocsTitle>
+          <Caution>
+            {data.map(({ caution }, i) => (
+              <li key={`caution${i}`}>{caution}</li>
+            ))}
+          </Caution>
+          <Form onSubmit={handleSubmit(onValid)}>
+            <div>
+              <Row>
+                <Label>문의 구분</Label>
+                <InputBox>
+                  <select {...register('category')} required>
+                    <option>옵션1</option>
+                    <option>옵션2</option>
+                    <option>옵션3</option>
+                  </select>
+                </InputBox>
+              </Row>
+              <Row>
+                <Label>이름</Label>
+                <InputBox>
+                  <input type="text" {...register('name')} required />
+                </InputBox>
+              </Row>
+              <Row>
+                <Label>이메일</Label>
+                <InputBox>
+                  <input type="email" {...register('email')} required />
+                </InputBox>
+              </Row>
+              <Row>
+                <Label>내용</Label>
+                <InputBox>
+                  <textarea {...register('contents')}></textarea>
+                </InputBox>
+              </Row>
+            </div>
+            <SubmitBtn disabled={loading}>제출</SubmitBtn>
+          </Form>
+        </Wrapper>
+      </Docs>
+    </Layout>
   );
 };
 
@@ -191,6 +194,14 @@ export const getServerSideProps = async (ctx: any) => {
     `${process.env.API_URL}/business_contact/get_data`,
     {}
   );
+  if (data?.error === 500) {
+    return {
+      redirect: {
+        destination: '/error',
+      },
+    };
+  }
+
   return {
     props: {
       data,

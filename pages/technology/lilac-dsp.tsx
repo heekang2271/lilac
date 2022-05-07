@@ -1,9 +1,11 @@
+import Layout from '@components/Layout';
 import Seo from '@components/Seo';
 import LiLacCard from '@components/technology/LiLacCard';
 import LiLacCardBox from '@components/technology/LiLacCardBox';
 import { fetchApi } from '@libs/utils';
 import { Docs, Wrapper, DocsTitle } from '@styles/common';
 import { NextPage } from 'next';
+import Image from 'next/image';
 import styled from 'styled-components';
 
 const IntroBox = styled.div`
@@ -39,6 +41,12 @@ const IntroItem = styled.div<IntroItemProps>`
     border-radius: 20px;
     overflow: hidden;
     background-color: #ffffff;
+    position: relative;
+
+    img {
+      object-fit: cover;
+      object-position: center;
+    }
   }
 
   & > div:last-child {
@@ -130,44 +138,48 @@ interface LiLacDSPProps {
 const LiLacDSP: NextPage<LiLacDSPProps> = ({ data }) => {
   const colors = ['#54C075', '#AC89AD', '#5580CA'];
   return (
-    <Docs>
-      <Seo title="LiLac-DSP" />
-      <Wrapper short={true}>
-        <DocsTitle>{data.title}</DocsTitle>
-        <Description
-          dangerouslySetInnerHTML={{
-            __html: data.description.replaceAll('\n', '<br>'),
-          }}
-        ></Description>
-        <IntroBox>
-          {data.intro.map((intro, i) => (
-            <IntroItem color={colors[i]} key={`intro${i}`}>
-              <div></div>
-              <div>
-                <h5>{intro.title}</h5>
-                <ul>
-                  {intro.content.split('\n').map((text, j) => (
-                    <li key={`introc${i}${j}`}>{text}</li>
-                  ))}
-                </ul>
-              </div>
-            </IntroItem>
-          ))}
-        </IntroBox>
-        <LiLacCardBox>
-          {data.items.map((item, i) => (
-            <LiLacCard
-              key={`card${i}`}
-              title={item.title}
-              subtitle={item.subtitle}
-              image={item.image}
-              content={item.content}
-              reverse={i % 2 === 1}
-            ></LiLacCard>
-          ))}
-        </LiLacCardBox>
-      </Wrapper>
-    </Docs>
+    <Layout>
+      <Docs>
+        <Seo title="LiLac-DSP" />
+        <Wrapper short={true}>
+          <DocsTitle>{data.title}</DocsTitle>
+          <Description
+            dangerouslySetInnerHTML={{
+              __html: data.description.replaceAll('\n', '<br>'),
+            }}
+          ></Description>
+          <IntroBox>
+            {data.intro.map((intro, i) => (
+              <IntroItem color={colors[i]} key={`intro${i}`}>
+                <div>
+                  {intro.image && <Image src={intro.image} layout="fill" />}
+                </div>
+                <div>
+                  <h5>{intro.title}</h5>
+                  <ul>
+                    {intro.content.split('\n').map((text, j) => (
+                      <li key={`introc${i}${j}`}>{text}</li>
+                    ))}
+                  </ul>
+                </div>
+              </IntroItem>
+            ))}
+          </IntroBox>
+          <LiLacCardBox>
+            {data.items.map((item, i) => (
+              <LiLacCard
+                key={`card${i}`}
+                title={item.title}
+                subtitle={item.subtitle}
+                image={item.image}
+                content={item.content}
+                reverse={i % 2 === 1}
+              ></LiLacCard>
+            ))}
+          </LiLacCardBox>
+        </Wrapper>
+      </Docs>
+    </Layout>
   );
 };
 
@@ -179,6 +191,13 @@ export const getServerSideProps = async (ctx: any) => {
     `${process.env.API_URL}/LilacDSP/get_data`,
     {}
   );
+  if (data?.error === 500) {
+    return {
+      redirect: {
+        destination: '/error',
+      },
+    };
+  }
 
   return {
     props: {

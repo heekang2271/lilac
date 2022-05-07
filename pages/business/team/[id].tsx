@@ -4,7 +4,6 @@ import TeamComponent from '@components/business/team/Team';
 import { fetchApi } from '@libs/utils';
 
 const Team: NextPage<TeamProps> = ({ data }) => {
-  console.log(data);
   return <TeamComponent data={data} />;
 };
 
@@ -15,6 +14,15 @@ export const getServerSideProps = async (ctx: any) => {
   const data = await fetchApi('POST', `${process.env.API_URL}/team/get_data`, {
     id,
   });
+
+  if (data?.error === 500) {
+    return {
+      redirect: {
+        destination: '/error',
+      },
+    };
+  }
+
   return {
     props: {
       data,

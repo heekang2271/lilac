@@ -71,6 +71,15 @@ const BannerText = styled.div`
     font-size: 24px;
     font-weight: 600;
   }
+
+  @media only screen and (max-width: 850px) {
+    h1 {
+      font-size: 32px;
+    }
+    span {
+      font-size: 20px;
+    }
+  }
 `;
 
 const BannerNav = styled.nav`
@@ -93,6 +102,17 @@ const BannerNav = styled.nav`
 
   a:first-child {
     font-size: 20px;
+  }
+
+  @media only screen and (max-width: 850px) {
+    height: 40px;
+    min-height: 40px;
+    a {
+      font-size: 15px;
+    }
+    a:first-child {
+      font-size: 18px;
+    }
   }
 `;
 

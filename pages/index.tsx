@@ -9,14 +9,12 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { BsArrowRight } from 'react-icons/bs';
 import Image from 'next/image';
+import { fetchApi } from '@libs/utils';
+import Layout from '@components/Layout';
 
 const Container = styled.div``;
 
-interface VisualAreaProps {
-  image: string;
-}
-
-const VisualArea = styled.section<VisualAreaProps>`
+const VisualArea = styled.section`
   position: relative;
   width: 100%;
   height: 100vh;
@@ -59,7 +57,7 @@ interface VisualTextProps {
 
 const VisualText = styled.div<VisualTextProps>`
   width: 100%;
-  max-width: 900px;
+  max-width: 840px;
   float: ${(props) => props.align};
   position: relative;
   z-index: 10;
@@ -77,14 +75,14 @@ const VisualText = styled.div<VisualTextProps>`
   }
 
   h1 {
-    font-size: 56px;
+    font-size: 52px;
     font-weight: 600;
     line-height: 1.3;
-    margin-bottom: 40px;
   }
 
   p {
     font-size: 24px;
+    margin-bottom: 40px;
   }
 
   @keyframes upslide {
@@ -96,6 +94,29 @@ const VisualText = styled.div<VisualTextProps>`
     100% {
       opacity: 1;
       top: 0;
+    }
+  }
+
+  @media only screen and (max-width: 1100px) {
+    max-width: 700px;
+    h1 {
+      font-size: 48px;
+    }
+
+    p {
+      font-size: 20px;
+    }
+  }
+
+  @media only screen and (max-width: ${Style.mobileWidth}) {
+    max-width: 600px;
+    h1 {
+      font-size: 36px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 18px;
     }
   }
 `;
@@ -114,6 +135,10 @@ const Title = styled.h2`
   font-weight: 600;
   text-align: center;
   margin-bottom: 60px;
+
+  @media only screen and (max-width: ${Style.mobileWidth}) {
+    font-size: 28px;
+  }
 `;
 
 const TechGoBtnBox = styled.div`
@@ -142,6 +167,7 @@ const ContactBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 40px;
 
   & > div:first-child {
     max-width: 700px;
@@ -169,6 +195,48 @@ const ContactBox = styled.div`
       left: 10px;
     }
   }
+
+  @media only screen and (max-width: 800px) {
+    gap: 80px;
+    & > div:first-child {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      span {
+        font-size: 40px;
+        font-weight: 600;
+      }
+      p {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 18px;
+      }
+    }
+    flex-direction: column;
+  }
+
+  @media only screen and (max-width: ${Style.mobileWidth}) {
+    gap: 60px;
+    & > div:first-child {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      span {
+        font-size: 28px;
+      }
+      p {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 16px;
+      }
+    }
+    flex-direction: column;
+    & > a {
+      font-size: 18px;
+    }
+  }
 `;
 
 interface HomeProps {
@@ -181,6 +249,7 @@ interface HomeProps {
     intro: string;
     purpose: any;
     technology: any;
+    contact: any;
   };
 }
 
@@ -190,14 +259,19 @@ const Home: NextPage<HomeProps> = ({ data }) => {
   useEffect(() => {
     const handleVisual = () => {
       const windowBottom = window.innerHeight;
-      $visualTexts.current.forEach(($visualText, i) => {
-        const clientRect = $visualText.getBoundingClientRect();
-        const center =
-          (clientRect.bottom - clientRect.top) / 2 + clientRect.top;
-        if (center < windowBottom) {
-          $visualText.style.animationName = 'upslide';
-        }
-      });
+
+      if ($visualTexts.current) {
+        $visualTexts.current.forEach(($visualText, i) => {
+          if ($visualText) {
+            const clientRect = $visualText.getBoundingClientRect();
+            const center =
+              (clientRect.bottom - clientRect.top) / 2 + clientRect.top;
+            if (center < windowBottom) {
+              $visualText.style.animationName = 'upslide';
+            }
+          }
+        });
+      }
     };
 
     window.addEventListener('scroll', handleVisual);
@@ -208,153 +282,75 @@ const Home: NextPage<HomeProps> = ({ data }) => {
     };
   }, [$visualTexts]);
   return (
-    <Container>
-      <Seo title={''} />
-      <ShadowMask></ShadowMask>
-      {data.visual.map((visual, i) => (
-        <VisualArea key={`visual${i}`} image={visual.image}>
-          <Image src={visual.image} layout="fill" />
-          <VisualTextBox>
-            <Wrapper>
-              <VisualText
-                align={i % 2 === 0 ? 'left' : 'right'}
-                ref={(el) => ($visualTexts.current[i] = el!)}
-              >
-                <h1>{visual.title}</h1>
-                <p>{visual.description}</p>
-              </VisualText>
-            </Wrapper>
-          </VisualTextBox>
-        </VisualArea>
-      ))}
-      <Section bgColor="#ffffff">
-        <OurPurpose data={data.purpose} />
-      </Section>
-      <Section bgColor="#f6f1f6">
-        <Title>Technology</Title>
-        <Wrapper>
-          <Technology technology={data.technology} />
-          <TechGoBtnBox>
-            <Link href="/technology/platform-link">
-              <a>
-                <span>GO</span>
-                <BsArrowRight />
-              </a>
-            </Link>
-          </TechGoBtnBox>
-        </Wrapper>
-      </Section>
-      <Section bgColor="#BC9ABC">
-        <Wrapper>
-          <ContactBox>
-            <div>
-              <span>Contact us</span>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua
-              </p>
-            </div>
-            <Link href="/contact/location">
-              <a>
-                <span>GO</span>
-                <BsArrowRight />
-              </a>
-            </Link>
-          </ContactBox>
-        </Wrapper>
-      </Section>
-    </Container>
+    <Layout>
+      <Container>
+        <Seo title={''} />
+        <ShadowMask></ShadowMask>
+        {data.visual.map((visual, i) => (
+          <VisualArea key={`visual${i}`}>
+            {visual.image && (
+              <Image src={visual.image} layout="fill" priority />
+            )}
+            <VisualTextBox>
+              <Wrapper>
+                <VisualText
+                  align={i % 2 === 0 ? 'left' : 'right'}
+                  ref={(el) => ($visualTexts.current[i] = el!)}
+                >
+                  <h1>{visual.title}</h1>
+                  {visual.description && visual.description !== '' && (
+                    <p>{visual.description}</p>
+                  )}
+                </VisualText>
+              </Wrapper>
+            </VisualTextBox>
+          </VisualArea>
+        ))}
+        <Section bgColor="#ffffff">
+          <OurPurpose data={data.purpose} />
+        </Section>
+        <Section bgColor="#f6f1f6">
+          <Title>Technology</Title>
+          <Wrapper>
+            <Technology technology={data.technology} />
+          </Wrapper>
+        </Section>
+        <Section bgColor="#BC9ABC">
+          <Wrapper>
+            <ContactBox>
+              <div>
+                <span>{data.contact.title}</span>
+                <p>{data.contact.description}</p>
+              </div>
+              <Link href="/contact/location">
+                <a>
+                  <span>GO</span>
+                  <BsArrowRight />
+                </a>
+              </Link>
+            </ContactBox>
+          </Wrapper>
+        </Section>
+      </Container>
+    </Layout>
   );
 };
 
 export default Home;
 
 export const getServerSideProps = async (ctx: any) => {
-  const data = {
-    visual: [
-      {
-        image: '/img/home1.jpg',
-        title: 'Lorem ipsum dolor sit amet, consectetur',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit',
+  const data = await fetchApi(
+    'POST',
+    `${process.env.API_URL}/Main_home/get_data`
+  );
+
+  if (data?.error === 500) {
+    return {
+      redirect: {
+        destination: '/error',
       },
-      {
-        image: '/img/home2.jpg',
-        title: 'Lorem ipsum dolor sit amet, consectetur',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit',
-      },
-      {
-        image: '/img/home3.jpg',
-        title: 'Lorem ipsum dolor sit amet, consectetur',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit',
-      },
-    ],
-    intro:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit. Volutpat odio facilisis mauris sit amet massa. Commodo odio aenean sed adipiscing diam donec adipiscing tristique. Mi eget mauris pharetra et. Non tellus orci ac auctor augue. Elit at imperdiet dui accumsan sit. Ornare arcu dui vivamus arcu felis. Egestas integer eget aliquet nibh praesent. In hac habitasse platea dictumst quisque sagittis purus. Pulvinar elementum integer enim neque volutpat ac.',
-    purpose: {
-      philosophy:
-        '항상 새로운 방식으로 혁신하고,\n이해할 수 있는 방식으로 소통하며,\n소외되지 않도록 공유한다.',
-      vision: {
-        title: 'Vision',
-        contents: [
-          '인공지능 기반 제약 및 약료 혁신기술들을\n가장 쉬운 방식으로 제공하는 기업',
-        ],
-      },
-      mission: {
-        title: 'Mission',
-        contents: [
-          '누구보다\n빠른 신약',
-          '누구보다\n정확한 약물치료',
-          '누구나\n혜택 받을 수 있도록',
-        ],
-      },
-      strategy: {
-        title: 'Strategy',
-        contents: [
-          'AI를 활용한 신약개발, 부스팅 플랫폼 개발',
-          'AI를 활용한 정밀 환자 맞춤 약물치료 플랫폼 개발',
-          '사용자 친화 인터페이스 개발',
-        ],
-      },
-      goal: {
-        title: 'Goal',
-        contents: [
-          'LiLac-DSP\n인공지능 기반 정주기 신약 개발, 지원시스템 개발',
-          'LiLac-QSP\n인공지능 기반 약물 노출 및 반응 예측 플랫폼 개발',
-          'LiLac-DSP/QSP\n웹 클라우드 기반 플랫폼 인터페이스 개발',
-        ],
-      },
-      coreValue: {
-        title: 'Core Value',
-        contents: ['혁신을 위한 소통', '소통을 위한 공유', '공유를 위한 혁신'],
-      },
-    },
-    technology: [
-      {
-        image: null,
-        title: 'LiLac-ADMET',
-        subTitle: '화합물에 대한 이해',
-        description:
-          '화합물 구조정보 기반한 화합물의 흡수, 분포, 대사, 배설 및 독성 예측 모듈 화합물 구조정보 기반한 화합물의 흡수, 분포, 대사, 배설 및 독성 예측 모듈 화합물 구조정보 기반한 화합물의 흡수, 분포, 대사, 배설 및 독성 예측 모듈',
-      },
-      {
-        image: null,
-        title: 'LiLac-ADMET',
-        subTitle: '화합물에 대한 이해',
-        description:
-          '화합물 구조정보 기반한 화합물의 흡수, 분포, 대사, 배설 및 독성 예측 모듈',
-      },
-      {
-        image: null,
-        title: 'LiLac-ADMET',
-        subTitle: '화합물에 대한 이해',
-        description:
-          '화합물 구조정보 기반한 화합물의 흡수, 분포, 대사, 배설 및 독성 예측 모듈',
-      },
-    ],
-  };
+    };
+  }
   return {
     props: {
       data,

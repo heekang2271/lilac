@@ -6,6 +6,7 @@ import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi';
 import React, { useState } from 'react';
 import Seo from '@components/Seo';
 import Image from 'next/image';
+import Layout from '@components/Layout';
 
 const Container = styled.div`
   display: flex;
@@ -307,6 +308,7 @@ const SelectDetail = styled.ul<SelectDetailProps>`
   box-shadow: 0 0 10px -3px rgba(0, 0, 0, 0.4);
   border-radius: 5px;
   overflow-y: auto;
+  z-index: 10;
   max-height: ${(props) => (props.show ? '240px' : '0px')};
   /* transition: max-height 0.5s ease-in-out; */
 
@@ -350,151 +352,165 @@ export default function Team({ data: { detail, group } }: TeamProps) {
     setSelectOn(false);
   };
   return (
-    <Docs>
-      <Wrapper>
-        <Seo title="Team" />
-        <Container>
-          <MobileSelectBox>
-            <MobileSelect onClick={toggleSelectOn}>
-              <span>
-                {detail.nameKr} ({detail.nameEn})
-              </span>
-              {selectOn ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
-            </MobileSelect>
-            <SelectDetail show={selectOn}>
-              {group.map((group, i) => (
-                <React.Fragment key={`mobileGroup${i}`}>
-                  {group.members.map((member) => (
-                    <li key={`mobileMember${member.id}`}>
-                      <Link href={`/business/team/${member.id}`}>
-                        <SelectLink
-                          current={detail.id === member.id}
-                          onClick={onClickLink}
-                        >
-                          {member.nameKr} ({member.nameEn})
-                        </SelectLink>
-                      </Link>
-                    </li>
-                  ))}
-                </React.Fragment>
-              ))}
-            </SelectDetail>
-          </MobileSelectBox>
-          <DetailBox>
-            <ImageBox>
-              <ImageHolder>
-                <Image
-                  src={detail.image ?? '/img/people_temp.png'}
-                  layout="fill"
-                />
-              </ImageHolder>
-            </ImageBox>
-            <DetailInfoBox>
-              <DetailName>
-                <h2>
-                  {detail.nameKr}
-                  <Level>{detail.level}</Level>
-                </h2>
-                <h4>{detail.nameEn}</h4>
-              </DetailName>
-
-              <LinkList>
-                <div>E-mail</div>
-                <div>{detail.email}</div>
-                {detail.github && (
-                  <>
-                    <div>Github</div>
-                    <div>
-                      <a href={detail.github} target="_blank" rel="noreferrer">
-                        {detail.github}
-                      </a>
-                    </div>
-                  </>
-                )}
-                {detail.scholar && (
-                  <>
-                    <div>Scholar</div>
-                    <div>
-                      <a href={detail.scholar} target="_blank" rel="noreferrer">
-                        {detail.scholar}
-                      </a>
-                    </div>
-                  </>
-                )}
-                {detail.link && (
-                  <>
-                    <div>Linkdin</div>
-                    <div>
-                      <a href={detail.scholar} target="_blank" rel="noreferrer">
-                        {detail.scholar}
-                      </a>
-                    </div>
-                  </>
-                )}
-              </LinkList>
-              {detail.career && detail.career.length > 0 && (
-                <History>
-                  <h4>Career</h4>
-                  <div>
-                    {detail.career.map(({ date, detail }, i) => (
-                      <HistoryRow key={`detailCareer${i}`}>
-                        <span>{date}</span>
-                        <span>{detail}</span>
-                      </HistoryRow>
-                    ))}
-                  </div>
-                </History>
-              )}
-              {detail.education && detail.education.length > 0 && (
-                <History>
-                  <h4>Education</h4>
-                  <div>
-                    {detail.education.map(({ date, detail }, i) => (
-                      <HistoryRow key={`detailEducation${i}`}>
-                        <span>{date}</span>
-                        <span>{detail}</span>
-                      </HistoryRow>
-                    ))}
-                  </div>
-                </History>
-              )}
-            </DetailInfoBox>
-          </DetailBox>
-          <CardBox>
-            <div>
-              {group.map((group, i) => (
-                <Group key={`group${i}`}>
-                  <GroupLevel>{group.level}</GroupLevel>
-                  <CardGrid>
+    <Layout>
+      <Docs>
+        <Wrapper>
+          <Seo title="Team" />
+          <Container>
+            <MobileSelectBox>
+              <MobileSelect onClick={toggleSelectOn}>
+                <span>
+                  {detail.nameKr} ({detail.nameEn})
+                </span>
+                {selectOn ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
+              </MobileSelect>
+              <SelectDetail show={selectOn}>
+                {group.map((group, i) => (
+                  <React.Fragment key={`mobileGroup${i}`}>
                     {group.members.map((member) => (
-                      <Link
-                        href={`/business/team/${member.id}`}
-                        key={`card${member.id}`}
-                      >
-                        <a>
-                          <Card current={detail.id === member.id}>
-                            <CardName>
-                              <h4>{member.nameKr}</h4>
-                              <h5>{member.nameEn}</h5>
-                            </CardName>
-                            <Seemore>See more</Seemore>
-                            <CardInfo>
-                              <div>Admission</div>
-                              <div>{member.admission}</div>
-                              <div>E-mail</div>
-                              <div>{member.email}</div>
-                            </CardInfo>
-                          </Card>
-                        </a>
-                      </Link>
+                      <li key={`mobileMember${member.id}`}>
+                        <Link href={`/business/team/${member.id}`}>
+                          <SelectLink
+                            current={detail.id === member.id}
+                            onClick={onClickLink}
+                          >
+                            {member.nameKr} ({member.nameEn})
+                          </SelectLink>
+                        </Link>
+                      </li>
                     ))}
-                  </CardGrid>
-                </Group>
-              ))}
-            </div>
-          </CardBox>
-        </Container>
-      </Wrapper>
-    </Docs>
+                  </React.Fragment>
+                ))}
+              </SelectDetail>
+            </MobileSelectBox>
+            <DetailBox>
+              <ImageBox>
+                <ImageHolder>
+                  <Image
+                    src={detail.image ?? '/img/people_temp.png'}
+                    layout="fill"
+                  />
+                </ImageHolder>
+              </ImageBox>
+              <DetailInfoBox>
+                <DetailName>
+                  <h2>
+                    {detail.nameKr}
+                    <Level>{detail.level}</Level>
+                  </h2>
+                  <h4>{detail.nameEn}</h4>
+                </DetailName>
+
+                <LinkList>
+                  <div>E-mail</div>
+                  <div>{detail.email}</div>
+                  {detail.github && (
+                    <>
+                      <div>Github</div>
+                      <div>
+                        <a
+                          href={detail.github}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {detail.github}
+                        </a>
+                      </div>
+                    </>
+                  )}
+                  {detail.scholar && (
+                    <>
+                      <div>Scholar</div>
+                      <div>
+                        <a
+                          href={detail.scholar}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {detail.scholar}
+                        </a>
+                      </div>
+                    </>
+                  )}
+                  {detail.link && (
+                    <>
+                      <div>Linkdin</div>
+                      <div>
+                        <a
+                          href={detail.scholar}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {detail.scholar}
+                        </a>
+                      </div>
+                    </>
+                  )}
+                </LinkList>
+                {detail.career && detail.career.length > 0 && (
+                  <History>
+                    <h4>Career</h4>
+                    <div>
+                      {detail.career.map(({ date, detail }, i) => (
+                        <HistoryRow key={`detailCareer${i}`}>
+                          <span>{date}</span>
+                          <span>{detail}</span>
+                        </HistoryRow>
+                      ))}
+                    </div>
+                  </History>
+                )}
+                {detail.education && detail.education.length > 0 && (
+                  <History>
+                    <h4>Education</h4>
+                    <div>
+                      {detail.education.map(({ date, detail }, i) => (
+                        <HistoryRow key={`detailEducation${i}`}>
+                          <span>{date}</span>
+                          <span>{detail}</span>
+                        </HistoryRow>
+                      ))}
+                    </div>
+                  </History>
+                )}
+              </DetailInfoBox>
+            </DetailBox>
+            <CardBox>
+              <div>
+                {group.map((group, i) => (
+                  <Group key={`group${i}`}>
+                    <GroupLevel>{group.level}</GroupLevel>
+                    <CardGrid>
+                      {group.members.map((member) => (
+                        <Link
+                          href={`/business/team/${member.id}`}
+                          key={`card${member.id}`}
+                        >
+                          <a>
+                            <Card current={detail.id === member.id}>
+                              <CardName>
+                                <h4>{member.nameKr}</h4>
+                                <h5>{member.nameEn}</h5>
+                              </CardName>
+                              <Seemore>See more</Seemore>
+                              <CardInfo>
+                                <div>Admission</div>
+                                <div>{member.admission}</div>
+                                <div>E-mail</div>
+                                <div>{member.email}</div>
+                              </CardInfo>
+                            </Card>
+                          </a>
+                        </Link>
+                      ))}
+                    </CardGrid>
+                  </Group>
+                ))}
+              </div>
+            </CardBox>
+          </Container>
+        </Wrapper>
+      </Docs>
+    </Layout>
   );
 }

@@ -34,6 +34,21 @@ export const fetchApi = async (method: string, url: string, body?: IBody) => {
       ...(body && method === 'POST' && { body: JSON.stringify(body) }),
     })
   ).json();
+  try {
+    const res = await fetch(url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      ...(body && method === 'POST' && { body: JSON.stringify(body) }),
+    });
 
-  return result;
+    const data = await res.json();
+
+    return data;
+  } catch {
+    return {
+      error: 500,
+    };
+  }
 };

@@ -1,3 +1,4 @@
+import Layout from '@components/Layout';
 import Seo from '@components/Seo';
 import { fetchApi } from '@libs/utils';
 import { Docs, Wrapper } from '@styles/common';
@@ -38,6 +39,11 @@ const BackBtn = styled.button`
   color: #ffffff;
   padding: 12px 50px;
   font-size: 18px;
+
+  @media only screen and (max-width: 850px) {
+    font-size: 15px;
+    padding: 12px 40px;
+  }
 `;
 
 interface NewsProps {
@@ -62,17 +68,19 @@ const NewsBoard: NextPage<NewsProps> = ({ data, existBack }) => {
   };
 
   return (
-    <Docs>
-      <Seo title="News" />
-      <Wrapper short={true}>
-        <Title>{data.title}</Title>
-        <Date>{data.date}</Date>
-        <Contents>{data.contents}</Contents>
-        <BtnBox>
-          <BackBtn onClick={onListClick}>목록</BackBtn>
-        </BtnBox>
-      </Wrapper>
-    </Docs>
+    <Layout>
+      <Docs>
+        <Seo title="News" />
+        <Wrapper short={true}>
+          <Title>{data.title}</Title>
+          <Date>{data.date}</Date>
+          <Contents>{data.contents}</Contents>
+          <BtnBox>
+            <BackBtn onClick={onListClick}>목록</BackBtn>
+          </BtnBox>
+        </Wrapper>
+      </Docs>
+    </Layout>
   );
 };
 
@@ -80,17 +88,24 @@ export default NewsBoard;
 
 export const getServerSideProps = async (ctx: any) => {
   const id = ctx.params.id;
-  const res = await fetchApi(
+  const data = await fetchApi(
     'POST',
     `${process.env.API_URL}/news/get_innercontent`,
     {
       id,
     }
   );
+  if (data?.error === 500) {
+    return {
+      redirect: {
+        destination: '/error',
+      },
+    };
+  }
 
   return {
     props: {
-      data: res,
+      data,
       existBack: ctx.query.existBack ? JSON.parse(ctx.query.existBack) : false,
     },
   };
